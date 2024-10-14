@@ -4,28 +4,22 @@ import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import pandas as pd
 import pickle
+from keras.losses import BinaryCrossentropy
 
 # Load the trained model
-@st.cache_resource
-def load_model():
-    model = tf.keras.models.load_model('model.h5')
-    return model
 
-@st.cache_resource
-def load_encoders():
-    with open("label_encoder_gender.pkl", "rb") as file:
-        label_encoder_gender = pickle.load(file)
-        
-    with open("onehot_encoder_geo.pkl", "rb") as file:
-        onehot_encoder_geo = pickle.load(file)
+model = tf.keras.models.load_model('model.h5', compile=False)
+model.compile(optimizer='adam', loss=BinaryCrossentropy(), metrics=['accuracy'])
 
-    with open("scaler.pkl", "rb") as file:
-        scaler = pickle.load(file)
 
-    return label_encoder_gender, onehot_encoder_geo, scaler
+# Load the encoders and scaler
 
-model = load_model()
-label_encoder_gender, onehot_encoder_geo, scaler = load_encoders()
+with open('label_encoder_gender.pkl', 'rb') as file:
+    label_encoder_gender = pickle.load(file)
+with open('onehot_encoder_geo.pkl', 'rb') as file:
+    onehot_encoder_geo = pickle.load(file)
+with open('scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
 
 
 ## streamlit app
