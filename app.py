@@ -6,21 +6,30 @@ import pandas as pd
 import pickle
 
 # Load the trained model
-model = tf.keras.models.load_model('model.h5')
+@st.cache_resource
+def load_model():
+    model = tf.keras.models.load_model('model.h5')
+    return model
 
-# Load the encoders and scaler
-with open('label_encoder_gender.pkl', 'rb') as file:
-    label_encoder_gender = pickle.load(file)
+@st.cache_resource
+def load_encoders():
+    with open("label_encoder_gender.pkl", "rb") as file:
+        label_encoder_gender = pickle.load(file)
+        
+    with open("onehot_encoder_geo.pkl", "rb") as file:
+        onehot_encoder_geo = pickle.load(file)
 
-with open('onehot_encoder_geo.pkl', 'rb') as file:
-    onehot_encoder_geo = pickle.load(file)
+    with open("scaler.pkl", "rb") as file:
+        scaler = pickle.load(file)
 
-with open('scaler.pkl', 'rb') as file:
-    scaler = pickle.load(file)
+    return label_encoder_gender, onehot_encoder_geo, scaler
+
+model = load_model()
+label_encoder_gender, onehot_encoder_geo, scaler = load_encoders()
 
 
 ## streamlit app
-st.title('Customer Churn PRediction')
+st.title('Customer Churn Prediction')
 
 # User input
 geography = st.selectbox('Geography', onehot_encoder_geo.categories_[0])
