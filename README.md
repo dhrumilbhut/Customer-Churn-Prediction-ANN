@@ -10,7 +10,7 @@ Customer churn refers to the loss of customers over a specific period. Predictin
 The deep learning model for this project was built using TensorFlow/Keras. The model architecture includes:
 
 - Input Layer: Consisting of several input features.
-- Hidden Layers: Two fully connected (Dense) layers with ReLU activation function.
+- Hidden Layers: One fully connected (Dense) layer with ReLU activation function.
 - Output Layer: A single unit with a sigmoid activation function for churn probability
 
 ## Model Summary:
@@ -19,14 +19,12 @@ Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-dense_1 (Dense)              (None, 64)                832      
+dense (Dense)              (None, 16)                208      
 _________________________________________________________________
-dense_2 (Dense)              (None, 32)                2080       
-_________________________________________________________________
-dense_3 (Dense)              (None, 1)                 33        
+dense_1 (Dense)              (None, 1)                17              
 =================================================================
-Total params: 2945
-Trainable params: 2945
+Total params: 225
+Trainable params: 225
 Non-trainable params: 0
 
 ```
